@@ -29,9 +29,9 @@
         
         <div class="col-12 col-md-6 text-left my-3">
           <div class="container">
-            <div>
+            <div>  
               <span style="font-size: 13px; letter-spacing: 1px; color: hsl(26, 100%, 55%); font-weight: 700">
-                SNEAKER COMPANY
+                SNEAKER COMPANY 
               </span>
             </div>
 
