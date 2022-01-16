@@ -32,12 +32,12 @@
             <div>  
               <span style="font-size: 13px; letter-spacing: 1px; color: hsl(26, 100%, 55%); font-weight: 700">
                 SNEAKER COMPANY 
-              </span>
+              </span>  
             </div>
 
             <div class="mt-2 mb-4">
               <span style="font-size: 40px; font-weight: 900; color: black; line-height: 2.8rem">
-                Fall Limited Edition Sneakers
+                {{ title }}
               </span>
             </div>
 
@@ -52,7 +52,7 @@
               <div class="col-8 col-md-12 d-flex flex-row align-items-center">
                 <div>
                   <span style="font-size: 24px; font-weight: 900">
-                    $125.00
+                    ${{ price }}
                   </span>
                 </div>
                 <div class="">
@@ -84,7 +84,7 @@
                 </div>
               </div>
               <div class="col-12 col-md-8 text-center mt-3">
-                <div class="bg-add-cart">
+                <div class="bg-add-cart" @click="submit">
                   <span class="mx-3">
                     <i class="fas fa-shopping-cart text-white"></i>
                   </span>
@@ -114,7 +114,10 @@ export default {
   },
   data() {
     return {
+      title: 'Fall Limited Edition Sneakers',
+      price: 125,
       count: 0,
+
       mainImage: '/assets/image-product-1.jpg',
       images: [
         '/assets/image-product-1.jpg',
@@ -135,6 +138,26 @@ export default {
     },
     changeMainImage(image) {
       this.mainImage = image;
+    },
+    submit() {
+
+      var existingEntries = JSON.parse(localStorage.getItem("myCart"));
+
+      if(existingEntries == null) existingEntries = [];
+    
+      var entry = {
+        title: this.title,
+        price: this.price,
+        quantity: this.count,
+      };
+
+      localStorage.setItem("latestItem", JSON.stringify(entry));
+      
+      // Save allEntries back to local storage
+      existingEntries.push(entry);
+      localStorage.setItem("myCart", JSON.stringify(existingEntries));
+
+      console.log('myCart', JSON.parse(localStorage.getItem('myCart')));
     }
   }
 }
