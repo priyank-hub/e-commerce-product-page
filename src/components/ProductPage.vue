@@ -7,7 +7,7 @@
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           
           <b-navbar-brand class="mb-0">
-              <span style="font-size: 20px; font-weight: 700">
+              <span style="font-size: 28px; font-weight: 700; font-family: Amaranth">
                   Sneakers
               </span>
           </b-navbar-brand>
@@ -104,7 +104,7 @@
         <b-navbar variant="faded" type="light" toggleable="lg">
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-navbar-brand tag="h1" class="mb-0 mx-3">
-              <span style="font-size: 20px; font-weight: 700">
+              <span style="font-size: 24px; font-weight: 700; font-family: Amaranth">
                   Sneakers
               </span>
           </b-navbar-brand>
@@ -620,7 +620,12 @@ i:hover {
     padding: 0px;
   }
 
+  @media (max-width: 768px) {
+    .carousel-item .img-fluid {
+      border-radius: 0px !important;
+    }  
+  }
   .carousel-item .img-fluid {
-    border-radius: 30px !important;
+    border-radius: 30px;
   }
 </style>
