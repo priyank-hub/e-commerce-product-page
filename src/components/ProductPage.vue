@@ -114,14 +114,68 @@
                   <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                       <template #button-content>
                           <b-img src="/assets/icon-cart.svg" alt=""></b-img>
+                          <span class="cart-count">
+                            {{ cartItemsCount }}
+                          </span>
                       </template>
 
-                      <b-dropdown-item href="#">Action</b-dropdown-item>
+                      <div style="min-width: 350px; box-shadow: 0px 0px 15px 10px rgba(0,0,0,0.1); border-radius: 15px !important;">
+                        <div class="d-flex flex-column">
+                          <div class="col-12 p-3 border-bottom">
+                              <span style="font-weight: 700">
+                                  Cart
+                              </span>
+                          </div>
+                          <div class="col-12 px-1 mt-3" style="max-height: 200px; overflow: auto">
+                            <div v-if="cartItems && cartItems.length > 0">
+                                <div v-for="(item, index) in cartItems" :key="index" class="d-flex flex-row justify-content-between my-3">
+                                  <div class="col-3 px-0 text-center">
+                                    <img :src="item.image" alt="product Image" width="70%" height="50px" style="object-fit: cover; border-radius: 10px">
+                                  </div>
+                                  <div class="col-8 px-1 d-flex flex-column">
+                                    <div>
+                                        <span style="font-size: 14px" class="text-muted">
+                                            {{ item.title }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span style="font-size: 15px" class="text-muted">
+                                          ${{ parseFloat(item.price).toFixed(2) }} X {{ item.quantity }}
+                                        </span>
+                                        <span class="" style="font-weight: 700">
+                                          ${{ calcPrice(item) }}
+                                        </span>
+                                    </div>
+                                  </div>
+                                  <div class="col-1 px-1">
+                                    <span @click="deleteItem(item, index)">
+                                      <img src="/assets/icon-delete.svg" alt="">
+                                    </span>
+                                  </div>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <div class="row justify-content-center align-items-center" style="min-height: 200px">
+                                    <div class="col-12 text-center">
+                                        <span class="text-muted" style="font-weight: 700">
+                                            Your cart is empty.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-12 my-3">
+                            <button class="p-3 text-white border-0 w-100 checkout-btn" style="background-color: hsl(26, 100%, 55%); font-weight: 700; font-size: 14px; border-radius: 10px">
+                              Checkout
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                   </b-dropdown>
               </b-nav-item>
               <b-nav-item class="col-6">
                   <span>
-                  <b-img src="./assets/user.jpg" rounded="circle" alt="Circle image" height="35px"></b-img>
+                  <b-img src="./assets/image-avatar.png" rounded="circle" alt="Circle image" height="35px"></b-img>
                   </span>
               </b-nav-item>
           </b-navbar-nav>
@@ -174,7 +228,7 @@
 
         <div class="col-12 col-md-5 p-0 p-md-2">
           <div class="d-flex flex-column">
-            <div class="col-12">
+            <div class="col-12 px-0 px-md-2">
               <div class="">
                 <b-img :src="mainImage" alt="" style="width: 100%" class="image"></b-img>
               </div>
@@ -340,7 +394,6 @@ export default {
       localStorage.setItem('myCart', JSON.stringify(this.cartItems));
     },
     submit() {
-
       var existingEntries = JSON.parse(localStorage.getItem("myCart"));
 
       if(existingEntries == null) existingEntries = [];
@@ -472,5 +525,13 @@ i:hover {
   .dropdown-menu.dropdown-menu-right.show {
     padding: 0px !important;
     border: 0px !important;
+  }
+
+  .appbar-mobile .dropdown-menu.show {
+    position: absolute;
+    left: -231px;
+    border: none;
+    padding: 0px;
+    border-radius: 15px;
   }
 </style>
