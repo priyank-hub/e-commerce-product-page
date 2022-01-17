@@ -39,8 +39,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [https://github.com/priyank-hub/e-commerce-product-page](https://your-solution-url.com)
-- Live Site URL: [https://priceless-feynman-3c8537.netlify.app/](https://your-live-site-url.com)
+- Solution URL: [here](https://github.com/priyank-hub/e-commerce-product-page)
+- Live Site URL: [here](https://priceless-feynman-3c8537.netlify.app/)
 
 ### Built with
 
