@@ -150,8 +150,6 @@
         </b-collapse>
       </b-navbar>
     </div>
-    
-    
   </div>
 </template>
 
@@ -160,6 +158,13 @@ export default {
     name: 'NavBar',
     props: {
 
+    },
+    watch: {
+      localStorage: {
+        handler(val) {
+          console.log('val', val);
+        }
+      }
     },
     data() {
         return {

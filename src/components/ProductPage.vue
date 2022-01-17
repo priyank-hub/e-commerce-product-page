@@ -1,7 +1,172 @@
 <template>
   <div class="">
     <div class="">
-      <nav-bar />
+      <div class="appbar-desktop d-none d-lg-block border-bottom">
+        <b-navbar variant="faded" type="light" toggleable="lg" class="py-0">
+
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          
+          <b-navbar-brand class="mb-0">
+              <span style="font-size: 20px; font-weight: 700">
+                  Sneakers
+              </span>
+          </b-navbar-brand>
+
+          <b-collapse id="nav-collapse" is-nav class="">
+            <b-navbar-nav>
+              <b-nav-item class="py-4 category" v-for="(category, index) in categories" :key="index">
+                <div class="px-2">
+                  <span class="text-muted text">
+                    {{ category }}
+                  </span>
+                </div>
+              </b-nav-item>
+            </b-navbar-nav>
+          </b-collapse>
+
+          <b-navbar-nav class="ml-auto d-flex flex-row align-items-center">
+              <b-nav-item class="col-6">
+                  <b-dropdown size="xl"  variant="link" toggle-class="text-decoration-none" no-caret right>
+                      <template #button-content>
+                          <b-img src="/assets/icon-cart.svg" alt=""></b-img>
+                          <span class="cart-count">
+                            {{ cartItemsCount }}
+                          </span>
+                      </template>
+
+                      <!-- <b-dropdown-item href="#"> -->
+                      <div style="min-width: 350px; box-shadow: 0px 0px 15px 10px rgba(0,0,0,0.1); border-radius: 15px !important;">
+                          <div class="d-flex flex-column">
+                              <div class="col-12 p-3 border-bottom">
+                                  <span style="font-weight: 700">
+                                      Cart
+                                  </span>
+                              </div>
+                              <div class="col-12 px-1 mt-3" style="max-height: 200px; overflow: auto">
+                                <div v-if="cartItems && cartItems.length > 0">
+                                    <div v-for="(item, index) in cartItems" :key="index" class="d-flex flex-row justify-content-between my-3">
+                                      <div class="col-3 px-0 text-center">
+                                        <img :src="item.image" alt="product Image" width="70%" height="50px" style="object-fit: cover; border-radius: 10px">
+                                      </div>
+                                      <div class="col-8 px-1 d-flex flex-column">
+                                        <div>
+                                            <span style="font-size: 14px" class="text-muted">
+                                                {{ item.title }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span style="font-size: 15px" class="text-muted">
+                                              ${{ parseFloat(item.price).toFixed(2) }} X {{ item.quantity }}
+                                            </span>
+                                            <span class="" style="font-weight: 700">
+                                              ${{ calcPrice(item) }}
+                                            </span>
+                                        </div>
+                                      </div>
+                                      <div class="col-1 px-1">
+                                        <span @click="deleteItem(item, index)">
+                                          <img src="/assets/icon-delete.svg" alt="">
+                                        </span>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div class="row justify-content-center align-items-center" style="min-height: 200px">
+                                        <div class="col-12 text-center">
+                                            <span class="text-muted" style="font-weight: 700">
+                                                Your cart is empty.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="col-12 my-3">
+                                <button class="p-3 text-white border-0 w-100 checkout-btn" style="background-color: hsl(26, 100%, 55%); font-weight: 700; font-size: 14px; border-radius: 10px">
+                                  Checkout
+                                </button>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- </b-dropdown-item> -->
+                  </b-dropdown>
+              </b-nav-item>
+              <b-nav-item class="col-6">
+                  <span>
+                  <b-img src="./assets/image-avatar.png" class="avatar" rounded="circle" alt="Circle image" height="40px"></b-img>
+                  </span>
+            </b-nav-item>
+          </b-navbar-nav>
+
+        </b-navbar>
+      </div>
+
+      <div class="appbar-mobile d-lg-none d-md-block">
+        <b-navbar variant="faded" type="light" toggleable="lg">
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          <b-navbar-brand tag="h1" class="mb-0 mx-3">
+              <span style="font-size: 20px; font-weight: 700">
+                  Sneakers
+              </span>
+          </b-navbar-brand>
+          
+          <b-navbar-nav class="ml-auto d-flex flex-row justify-content-between align-items-center">
+              <b-nav-item class="col-6">
+                  <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+                      <template #button-content>
+                          <b-img src="/assets/icon-cart.svg" alt=""></b-img>
+                      </template>
+
+                      <b-dropdown-item href="#">Action</b-dropdown-item>
+                  </b-dropdown>
+              </b-nav-item>
+              <b-nav-item class="col-6">
+                  <span>
+                  <b-img src="./assets/user.jpg" rounded="circle" alt="Circle image" height="35px"></b-img>
+                  </span>
+              </b-nav-item>
+          </b-navbar-nav>
+          
+          <b-collapse id="nav-collapse" is-nav class="">
+            <b-navbar-nav>
+              <b-nav-item class="">
+                <div>
+                  <span class="text-muted">
+                    Collections
+                  </span>
+                </div>
+              </b-nav-item>
+              <b-nav-item>
+                <div>
+                  <span class="text-muted">
+                    Men
+                  </span>
+                </div>
+              </b-nav-item>
+              <b-nav-item>
+                <div>
+                  <span class="text-muted">
+                    Women
+                  </span>
+                </div>
+              </b-nav-item>
+              <b-nav-item>
+                <div>
+                  <span class="text-muted">
+                    About
+                  </span>
+                </div>
+              </b-nav-item>
+              <b-nav-item>
+                <div>
+                  <span class="text-muted">
+                    Contact
+                  </span>
+                </div>
+              </b-nav-item>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </div>
     </div>
 
     <div class="container my-4">
@@ -52,7 +217,7 @@
               <div class="col-8 col-md-12 d-flex flex-row align-items-center">
                 <div>
                   <span style="font-size: 24px; font-weight: 900">
-                    ${{ price }}
+                    ${{ parseFloat(price).toFixed(2) }}
                   </span>
                 </div>
                 <div class="">
@@ -84,7 +249,15 @@
                 </div>
               </div>
               <div class="col-12 col-md-8 text-center mt-3">
-                <div class="bg-add-cart" @click="submit">
+                <b-button class="bg-add-cart border-0" :disabled="this.count == 0" style="width: 100%" @click="submit">
+                  <span class="mx-3">
+                    <i class="fas fa-shopping-cart text-white"></i>
+                  </span>
+                  <span style="font-weight: 700">
+                    Add to cart
+                  </span>
+                </b-button>
+                <div class="d-none bg-add-cart" @click="submit">
                   <span class="mx-3">
                     <i class="fas fa-shopping-cart text-white"></i>
                   </span>
@@ -102,7 +275,7 @@
 </template>
 
 <script>
-import NavBar from './NavBar'
+// import NavBar from './NavBar'
 
 export default {
   name: 'ProductPage',
@@ -110,14 +283,13 @@ export default {
 
   },
   components: {
-    NavBar
+    // NavBar
   },
   data() {
     return {
       title: 'Fall Limited Edition Sneakers',
-      price: 125,
-      count: 0,
-
+      price: "125.000",
+      count: 1,
       mainImage: '/assets/image-product-1.jpg',
       images: [
         '/assets/image-product-1.jpg',
@@ -125,6 +297,27 @@ export default {
         '/assets/image-product-3.jpg',
         '/assets/image-product-4.jpg'
       ],
+
+      mainCategory: 'Collections',
+      categories: [
+          'Collections',
+          'Men',
+          'Women',
+          'About',
+          'Contact',
+      ],
+      cartItems: [],
+
+    }
+  },
+  mounted() {
+    const items = JSON.parse(localStorage.getItem('myCart'));
+    console.log('items', items);
+    this.cartItems = items;
+  },
+  computed: {
+    cartItemsCount() {
+      return this.cartItems.length;
     }
   },
   methods: {
@@ -139,6 +332,13 @@ export default {
     changeMainImage(image) {
       this.mainImage = image;
     },
+    calcPrice(item) {
+      return parseFloat(parseFloat(item.price).toFixed(2) * item.quantity).toFixed(2);
+    },
+    deleteItem(item, index) {
+      this.cartItems.splice(index, 1);
+      localStorage.setItem('myCart', JSON.stringify(this.cartItems));
+    },
     submit() {
 
       var existingEntries = JSON.parse(localStorage.getItem("myCart"));
@@ -149,6 +349,7 @@ export default {
         title: this.title,
         price: this.price,
         quantity: this.count,
+        image: this.mainImage,
       };
 
       localStorage.setItem("latestItem", JSON.stringify(entry));
@@ -158,6 +359,8 @@ export default {
       localStorage.setItem("myCart", JSON.stringify(existingEntries));
 
       console.log('myCart', JSON.parse(localStorage.getItem('myCart')));
+
+      this.cartItems = JSON.parse(localStorage.getItem('myCart'));
     }
   }
 }
@@ -193,6 +396,7 @@ export default {
   padding: 14px;
   transition: 0.3s;
   cursor: pointer;
+  box-shadow: 0px 23px 19px 10px hsl(25, 100%, 94%);
 }
 
 .bg-add-cart:hover {
@@ -227,4 +431,46 @@ i {
 i:hover {
   color: hsl(24, 91%, 86%);
 }
+
+/* navbar */
+.avatar:hover {
+    border: 2px solid hsl(26, 100%, 55%) !important;
+}
+
+.category {
+    transition: 0.1s;
+}
+
+.category:hover {
+    border-bottom: 3px solid hsl(26, 100%, 55%);
+}
+
+.category:hover .text {
+  color: black !important;
+}
+
+.checkout-btn {
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {
+  background-color: hsl(24, 91%, 86%) !important;
+}
+
+.cart-count {
+  position: absolute;
+  top: 3px;
+  left: 22px;
+  padding: 0px 7px;
+  font-size: 9px;
+  background-color: hsl(26, 100%, 55%);
+  color: white;
+  border-radius: 5px;
+}
+</style>
+<style>
+  .dropdown-menu.dropdown-menu-right.show {
+    padding: 0px !important;
+    border: 0px !important;
+  }
 </style>
