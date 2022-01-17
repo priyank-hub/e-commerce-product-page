@@ -223,22 +223,27 @@
       </div>
     </div>
 
-    <div class="container my-4">
+    <div class="container my-0 my-md-4">
       <div class="row align-items-center justify-content-between">
-
         <div class="col-12 col-md-5 p-0 p-md-2">
           <div class="d-flex flex-column">
-            <div class="col-12 px-0 px-md-2">
-              <div class="">
-                <b-img :src="mainImage" alt="" style="width: 100%" class="image"></b-img>
+            <div class="col-12 px-md-2 d-none d-md-block">
+              <div class="" style="cursor: pointer">
+                <b-img :src="mainImage" alt="" style="width: 100%" class="image" @click="showMainImage()"></b-img>
               </div>
+            </div>
+
+            <div class="d-block d-md-none col-12 px-0">
+              <b-carousel v-model="slide" controls :interval="0">
+                <b-carousel-slide v-for="(image, index) in this.images" :key="index" :img-src="image"></b-carousel-slide>
+              </b-carousel>
             </div>
 
             <div class="col-12 d-none d-md-block my-4">
               <div class="row">
                 <div class="col-3" v-for="(image, index) in images" :key="index">
                   <div class="thumbnail" @click="changeMainImage(image)">
-                    <b-img :src="image" style="width: 100%" alt="" class="image" :class="mainImage === image ? 'active' : ''"></b-img>
+                    <b-img :src="image" style="width: 100%" alt="" class="image" :class="mainImage === image ? 'activess' : ''"></b-img>
                   </div>
                 </div>
               </div>
@@ -324,6 +329,40 @@
           </div>
         </div>
       </div>
+
+      <b-modal v-model="showImageModal" variant="transparent" size="md" backdrop shadow hide-footer>
+        <template #modal-header-close>
+          <i class="fas fa-times" style="color: #fff"></i>
+        </template>
+        <div class="container">
+          <div class="d-flex flex-column">
+
+            <div class="col-12 px-0 px-md-2">
+              <div class="">
+                <b-carousel v-model="slide" controls :interval="0">
+                  <b-carousel-slide v-for="(image, index) in this.images" :key="index" :img-src="image" class=""></b-carousel-slide>
+                </b-carousel>
+              </div>
+            </div>
+
+            <div class="d-none col-12 px-0 px-md-2">
+              <div class="text-center">
+                <b-img :src="this.mainImage" alt="" style="width: 100%" class="image"></b-img>
+              </div>
+            </div>
+
+            <div class="col-12 my-3">
+              <div class="row">
+                <div class="col-3" v-for="(image, index) in images" :key="index">
+                  <div class="thumbnail">
+                    <b-img :src="image" style="width: 100%" alt="" class="image" :class="index === slide ? 'activess' : ''"></b-img>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -361,7 +400,8 @@ export default {
           'Contact',
       ],
       cartItems: [],
-
+      showImageModal: false,
+      slide: 0,
     }
   },
   mounted() {
@@ -375,6 +415,9 @@ export default {
     }
   },
   methods: {
+    showMainImage() {
+      this.showImageModal = true;
+    },
     increment() {
       this.count += 1;
     },
@@ -472,7 +515,7 @@ export default {
   opacity: 0.3 !important;
 }
 
-.active {
+.activess {
   opacity: 0.4 !important;
   border: 3px solid hsl(26, 100%, 55%) !important;
 }
@@ -529,9 +572,55 @@ i:hover {
 
   .appbar-mobile .dropdown-menu.show {
     position: absolute;
-    left: -231px;
+    left: -220px;
     border: none;
     padding: 0px;
     border-radius: 15px;
+  }
+
+  .modal-content {
+    background-color: transparent !important;
+    border: none !important; 
+  }
+
+  .modal-header {
+    border: none !important;
+  }
+
+  .modal-header .close {
+    opacity: 1 !important;
+  }
+
+  .carousel-control-prev {
+    opacity: 1 !important;
+    align-items: center !important;
+    position: absolute;
+    left: 0px !important;
+  }
+
+  .carousel-control-next {
+    opacity: 1 !important;
+    align-items: center !important;
+    position: absolute;
+    right: 0px !important;
+  }
+
+  .carousel-control-prev-icon {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .carousel-control-next-icon {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .navbar-toggler.collapsed {
+    border: none;
+    padding: 0px;
+  }
+
+  .carousel-item .img-fluid {
+    border-radius: 30px !important;
   }
 </style>
